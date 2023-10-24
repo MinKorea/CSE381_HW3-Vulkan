@@ -1,0 +1,7 @@
+build/
+assets/models/*
+lib/
+.vscode/
+.cache/
+windows.env.cmake
+unix.env.cmake
