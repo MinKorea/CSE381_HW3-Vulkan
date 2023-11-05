@@ -46,8 +46,7 @@ class Controller
 	/*
 	* Constructor that initializes all the controllable game objects.
 	*/
-	Controller(sg::Node &camera_node, sg::Node &player_1_node, sg::Node &player_2_node, 
-		glm::vec3 &light_pos_1, glm::vec3 &light_pos_2, glm::vec3 &light_pos_3, glm::vec3 &light_pos_4);
+	Controller(sg::Node &camera_node, sg::Node &player_1_node, sg::Node &player_2_node);
 
 	/*
 	* This function handles events. If it's a key event it will provide a programmed

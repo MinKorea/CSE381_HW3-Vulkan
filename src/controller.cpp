@@ -12,8 +12,7 @@ namespace W3D
 {
 // Class that is responsible for dispatching events and answering collision queries
 
-Controller::Controller(sg::Node &camera_node, sg::Node &player_1_node, sg::Node &player_2_node, 
-	glm::vec3 &light_pos_1, glm::vec3 &light_pos_2, glm::vec3 &light_pos_3, glm::vec3 &light_pos_4) :
+Controller::Controller(sg::Node &camera_node, sg::Node &player_1_node, sg::Node &player_2_node) :
     camera_(camera_node),
     player_1(player_1_node),
     player_2(player_2_node)	
@@ -86,7 +85,11 @@ void Controller::deliver_event(const Event &event)
 	{
 		p_script = &player_2.get_component<sg::Script>();
 	}
-	else if (mode_ == ControllerMode::eCamera)
+	else
+	{
+		p_script = &camera_.get_component<sg::Script>();
+	}
+	/*else if (mode_ == ControllerMode::eCamera)
 	{
 		p_script = &camera_.get_component<sg::Script>();
 	}
@@ -102,7 +105,8 @@ void Controller::deliver_event(const Event &event)
 	}
 	else if (mode_ == ControllerMode::eLight4)
 	{
-	}
+
+	}*/
 
 	// AND NOW ASK THE SCRIPT TO PROVIDE A PROGRAMMED RESPONSE
 	p_script->process_event(event);

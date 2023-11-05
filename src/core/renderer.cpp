@@ -150,11 +150,7 @@ void Renderer::create_controller()
 	p_controller_ = std::make_unique<Controller>
 		(*p_camera_node_,
 		add_player_script("player_1"),
-		add_player_script("player_2"),
-		LIGHT_POSITIONS[0],
-	    LIGHT_POSITIONS[1], 
-		LIGHT_POSITIONS[2],
-		LIGHT_POSITIONS[3]);
+		add_player_script("player_2"));
 }
 
 void Renderer::render_frame()
