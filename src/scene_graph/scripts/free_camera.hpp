@@ -53,6 +53,8 @@ class FreeCamera : public NodeScript
 	*/
 	void resize(uint32_t width, uint32_t height) override;
 
+	// void camera_reset();
+
 };	// class FreeCamera
 
 }	// namespace W3D::sg

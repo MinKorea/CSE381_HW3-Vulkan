@@ -12,10 +12,11 @@ namespace W3D
 {
 // Class that is responsible for dispatching events and answering collision queries
 
-Controller::Controller(sg::Node &camera_node, sg::Node &player_1_node, sg::Node &player_2_node) :
+Controller::Controller(sg::Node &camera_node, sg::Node &player_1_node, sg::Node &player_2_node, 
+	glm::vec3 &light_pos_1, glm::vec3 &light_pos_2, glm::vec3 &light_pos_3, glm::vec3 &light_pos_4) :
     camera_(camera_node),
     player_1(player_1_node),
-    player_2(player_2_node)
+    player_2(player_2_node)	
 {
 }
 
@@ -26,7 +27,7 @@ void Controller::process_event(const Event &event)
 	{
 		const auto &key_input_event = static_cast<const KeyInputEvent &>(event);
 		// NUMBER KEYS ARE ALL GREATER
-		if (key_input_event.code > KeyCode::eD)
+		if (key_input_event.code > KeyCode::eQ)
 		{
 			switch_mode(key_input_event.code);
 			return;
@@ -49,10 +50,26 @@ void Controller::switch_mode(KeyCode code)
 	{
 		mode_ = ControllerMode::ePlayer2;
 	}
-	// THE DEFAULT IS TO SWITCH CONTROL TO THE CAMERA
-	else
+	// THE 3 KEY SWITCHES CONTROL TO THE CAMERA
+	else if (code == KeyCode::e3)
 	{
 		mode_ = ControllerMode::eCamera;
+	}
+	else if (code == KeyCode::e4)
+	{
+		mode_ = ControllerMode::eLight1;
+	}
+	else if (code == KeyCode::e5)
+	{
+		mode_ = ControllerMode::eLight2;
+	}
+	else if (code == KeyCode::e6)
+	{
+		mode_ = ControllerMode::eLight3;
+	}
+	else if (code == KeyCode::e7)
+	{
+		mode_ = ControllerMode::eLight4;
 	}
 }
 
@@ -69,9 +86,22 @@ void Controller::deliver_event(const Event &event)
 	{
 		p_script = &player_2.get_component<sg::Script>();
 	}
-	else
+	else if (mode_ == ControllerMode::eCamera)
 	{
 		p_script = &camera_.get_component<sg::Script>();
+	}
+	else if (mode_ == ControllerMode::eLight1)
+	{
+
+	}
+	else if (mode_ == ControllerMode::eLight2)
+	{
+	}
+	else if (mode_ == ControllerMode::eLight3)
+	{
+	}
+	else if (mode_ == ControllerMode::eLight4)
+	{
 	}
 
 	// AND NOW ASK THE SCRIPT TO PROVIDE A PROGRAMMED RESPONSE

@@ -47,6 +47,11 @@ void FreeCamera::update(float delta_time)
 		delta_translation.x += TRANSLATION_MOVE_STEP;
 	}
 
+	if (key_pressed_[KeyCode::eR])
+	{
+		// camera_reset();
+	}
+
 	if (mouse_button_pressed_[MouseButton::eLeft] && mouse_button_pressed_[MouseButton::eRight])
 	{
 		// USING THE MOUSE BUTTONS WE CAN ROTATE THE CAMERA
@@ -131,5 +136,21 @@ void FreeCamera::resize(uint32_t width, uint32_t height)
 			camera->set_aspect_ratio(static_cast<float>(width) / height);
 		}
 	}
-};
+}
+//void FreeCamera::camera_reset(){
+//	auto &camera_node = get_node();
+//	if (camera_node.has_component<Camera>())
+//	{
+//		// IF WE ARE DOING PERSPECTIVE RENDERING WE NEED TO UPDATE THE
+//		// ASPECT RATIO, AND THUS THE PROJECTION MATRIX
+//		if (auto camera = (&camera_node.get_component<Camera>()))
+//		{
+//			auto &T = camera->get_node()->get_component<Transform>();
+//			T.set_tranlsation(glm::vec3(0.0f, 0.0f, 5.0f));
+//			T.set_rotation(glm::vec3(0.0f, 0.0f, 0.0f));
+//		}
+//	}
+//}
+
 }        // namespace W3D::sg
+

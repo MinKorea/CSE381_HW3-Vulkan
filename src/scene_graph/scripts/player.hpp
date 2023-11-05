@@ -34,6 +34,7 @@ class Player : public NodeScript
 	*/
 	void process_event(const Event &event) override;
 
+
 };	// class Player
 
 }	// namespace W3D::sg

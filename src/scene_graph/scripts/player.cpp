@@ -43,6 +43,11 @@ void Player::update(float delta_time)
 	// UPDATE THE TRANSFORMATION VECTOR FOR THIS NODE
 	auto &T = get_node().get_transform();
 	T.set_tranlsation(T.get_translation() + delta_translation);
+
+	if (key_pressed_[KeyCode::eR])
+	{
+		// T.set_tranlsation(glm::vec3())
+	}
 }
 
 void Player::process_event(const Event &event)

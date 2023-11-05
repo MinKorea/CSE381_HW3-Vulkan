@@ -36,10 +36,20 @@ enum class KeyCode
 	eS,
 	eA,
 	eD,
+	eF,
+	eR,
+	eQ,
 
 	e1,
 	e2,
 	e3,
+	e4,
+	e5,
+	e6,
+	e7,
+	e8,
+	e9,
+	e0
 };
 
 // THERE ARE FOUR DIFFERENT TYPES OF KEYBOARD KEY INTERACTIONS
