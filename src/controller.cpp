@@ -1,5 +1,6 @@
 // IN THIS FILE WE'LL BE DECLARING METHODS DECLARED INSIDE THIS HEADER FILE
 #include "controller.hpp"
+#include <iostream>
 
 // OUR OWN TYPES
 #include "scene_graph/components/aabb.hpp"
@@ -12,10 +13,15 @@ namespace W3D
 {
 // Class that is responsible for dispatching events and answering collision queries
 
-Controller::Controller(sg::Node &camera_node, sg::Node &player_1_node, sg::Node &player_2_node) :
+Controller::Controller(sg::Node &camera_node, sg::Node &player_1_node, sg::Node &player_2_node,
+                       sg::Script &light_1_script, sg::Script &light_2_script, sg::Script &light_3_script, sg::Script &light_4_script) :
     camera_(camera_node),
     player_1(player_1_node),
-    player_2(player_2_node)	
+    player_2(player_2_node),
+    light_1(light_1_script),
+    light_2(light_2_script),
+    light_3(light_3_script),
+    light_4(light_4_script)
 {
 }
 
@@ -85,28 +91,31 @@ void Controller::deliver_event(const Event &event)
 	{
 		p_script = &player_2.get_component<sg::Script>();
 	}
-	else
-	{
-		p_script = &camera_.get_component<sg::Script>();
-	}
-	/*else if (mode_ == ControllerMode::eCamera)
+	else if (mode_ == ControllerMode::eCamera)
 	{
 		p_script = &camera_.get_component<sg::Script>();
 	}
 	else if (mode_ == ControllerMode::eLight1)
 	{
-
+		p_script = &light_1;
 	}
 	else if (mode_ == ControllerMode::eLight2)
 	{
+		p_script = &light_2;
 	}
 	else if (mode_ == ControllerMode::eLight3)
 	{
+		p_script = &light_3;
 	}
-	else if (mode_ == ControllerMode::eLight4)
+	else if(mode_ == ControllerMode::eLight4)
 	{
-
-	}*/
+		p_script = &light_4;
+	}
+	else
+	{
+		p_script = &camera_.get_component<sg::Script>();
+	}
+	
 
 	// AND NOW ASK THE SCRIPT TO PROVIDE A PROGRAMMED RESPONSE
 	p_script->process_event(event);

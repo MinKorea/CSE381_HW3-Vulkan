@@ -37,6 +37,7 @@ namespace sg
 class PBRMaterial;
 class Texture;
 class Camera;
+class Script;
 }        // namespace sg
 
 class Window;
@@ -199,5 +200,6 @@ class Renderer
 	void create_pipeline_resources();
 
 	sg::Node &add_player_script(const char *node_name);
+	sg::Script &add_light_script(glm::vec3& lightposition, std::string light_name);
 };
 }        // namespace W3D

@@ -2,13 +2,13 @@
 
 #include "scene_graph/script.hpp"
 
-
 namespace W3D::sg
 {
 
 class Light : public Script
 {
   private:
+	glm::vec3&                        new_pos;
 	float                             speed_multiplier_ = 2.0f;
 	std::unordered_map<KeyCode, bool> key_pressed_;
 
@@ -18,7 +18,7 @@ class Light : public Script
 	/*
 	 * Constructor simply sends the node argument to its parent constructor.
 	 */
-	Light(glm::vec3 &pos);
+	Light(glm::vec3& pos, const std::string &name);
 
 	/*
 	 * Called each frame, this function updates the player's state. Note, if a key
@@ -31,6 +31,8 @@ class Light : public Script
 	 * respond to events like key presses.
 	 */
 	void process_event(const Event &event) override;
+
+	virtual std::type_index get_type() override;
 };
 
 }        // namespace W3D::sg
