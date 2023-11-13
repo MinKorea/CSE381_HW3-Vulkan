@@ -8,6 +8,8 @@
 #include "scene_graph/event.hpp"
 #include "scene_graph/node.hpp"
 #include "scene_graph/script.hpp"
+#include "scene_graph/components/camera.hpp"
+#include "scene_graph/components/perspective_camera.hpp"
 
 namespace W3D
 {
@@ -31,6 +33,17 @@ void Controller::process_event(const Event &event)
 	if (event.type == EventType::eKeyInput)
 	{
 		const auto &key_input_event = static_cast<const KeyInputEvent &>(event);
+
+		if (key_input_event.code == KeyCode::eR)
+		{
+			auto &p1 = player_1.get_transform();
+			auto &p2 = player_2.get_transform();
+			p1.set_tranlsation(glm::vec3(0.0f, 0.0f, 0.0f));
+			p2.set_tranlsation(glm::vec3(3.0f, 0.0f, 0.0f));
+			auto &cam = camera_.get_transform();
+			cam.set_tranlsation(glm::vec3(0.0f, 0.0f, 5.0f));
+			cam.set_rotation(glm::vec3(0.0f, 0.0f, 0.0f));
+		}
 		// NUMBER KEYS ARE ALL GREATER
 		if (key_input_event.code > KeyCode::eQ)
 		{

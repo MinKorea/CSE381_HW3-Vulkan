@@ -102,8 +102,6 @@ void Renderer::main_loop()
 		// UPDATE SCENE OBJECTS
 		update();
 
-		
-
 		// RETRIEVE USER INPUT
 		p_window_->poll_events();
 	}
@@ -142,6 +140,18 @@ void Renderer::process_event(const Event &event)
 	}
 	else
 	{
+		if (event.type == EventType::eKeyInput)
+		{
+			const auto &key_input_event = static_cast<const KeyInputEvent &>(event);
+
+			if (key_input_event.code == KeyCode::eR)
+			{
+				LIGHT_POSITIONS[0] = glm::vec3(6.0f, 0.0f, 6.0f);
+				LIGHT_POSITIONS[1] = glm::vec3(-3.0f, 0.0f, 6.0f);
+				LIGHT_POSITIONS[2] = glm::vec3(0.0f, -6.0f, -6.0f);
+				LIGHT_POSITIONS[3] = glm::vec3(-6.0f, -6.0f, -6.0f);
+			}
+		}
 		p_controller_->process_event(event);
 	}
 }
