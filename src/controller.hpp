@@ -7,6 +7,7 @@ enum class KeyCode;
 namespace sg
 {
 class Node;
+class Script;
 }
 
 /*
@@ -37,6 +38,10 @@ class Controller
 	sg::Node      &camera_;		
 	sg::Node      &player_1;
 	sg::Node      &player_2;
+	sg::Script    &light_1;
+	sg::Script    &light_2;
+	sg::Script    &light_3;
+	sg::Script    &light_4;
 
 	// THIS KEEPS TRACK OF WHICH GAME OBJECT WE ARE CURRENTLY CONTROLLING
 	// WITH THIS OBJECT
@@ -46,7 +51,8 @@ class Controller
 	/*
 	* Constructor that initializes all the controllable game objects.
 	*/
-	Controller(sg::Node &camera_node, sg::Node &player_1_node, sg::Node &player_2_node);
+	Controller(sg::Node &camera_node, sg::Node &player_1_node, sg::Node &player_2_node,
+		sg::Script &light_1_script, sg::Script &light_2_script, sg::Script &light_3_script, sg::Script &light_4_script);
 
 	/*
 	* This function handles events. If it's a key event it will provide a programmed

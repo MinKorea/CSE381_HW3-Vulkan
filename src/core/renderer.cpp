@@ -3,6 +3,7 @@
 
 // C/C++ LANGUAGE API TYPES
 #include <queue>
+#include <iostream>
 
 // OUR OWN TYPES
 #include "common/cvar.hpp"
@@ -34,6 +35,7 @@
 #include "scene_graph/script.hpp"
 #include "scene_graph/scripts/free_camera.hpp"
 #include "scene_graph/scripts/player.hpp"
+#include "scene_graph/scripts/light.hpp"
 
 namespace W3D
 {
@@ -93,12 +95,14 @@ void Renderer::main_loop()
 	{
 		// INCREMENT THE TIMER
 		timer_.tick();
-
+		
 		// DRAW THE SCENE
 		render_frame();
 
 		// UPDATE SCENE OBJECTS
 		update();
+
+		
 
 		// RETRIEVE USER INPUT
 		p_window_->poll_events();
@@ -115,12 +119,18 @@ void Renderer::update()
 
 	// THESE ARE ALL THE SCENE SCRIPTS, ONE FOR EACH UPDATABLE ITEM
 	std::vector<sg::Script *> p_scripts = p_scene_->get_components<sg::Script>();
+	std::vector<sg::Light *>  p_lights  = p_scene_->get_components<sg::Light>();
 
 	// GO THROUGH ALL THE SCRIPTS
 	for (sg::Script *p_script : p_scripts)
 	{
 		// UPDATE THE SCENE OBJECT VIA ITS SCRIPT
 		p_script->update(delta_time);
+	}
+
+	for (sg::Light* p_light : p_lights)
+	{
+		p_light->update(delta_time);
 	}
 }
 
@@ -147,10 +157,20 @@ void Renderer::load_scene(const char *scene_name)
 
 void Renderer::create_controller()
 {
+
+	add_light_script(LIGHT_POSITIONS[0], "light_1");
+	add_light_script(LIGHT_POSITIONS[1], "light_2");
+	add_light_script(LIGHT_POSITIONS[2], "light_3");
+	add_light_script(LIGHT_POSITIONS[3], "light_4");
+
 	p_controller_ = std::make_unique<Controller>
 		(*p_camera_node_,
 		add_player_script("player_1"),
-		add_player_script("player_2"));
+		add_player_script("player_2"),
+	    *p_scene_->find_component<sg::Light>("light_1"),
+	    *p_scene_->find_component<sg::Light>("light_2"),
+	    *p_scene_->find_component<sg::Light>("light_3"),
+	    *p_scene_->find_component<sg::Light>("light_4"));
 }
 
 void Renderer::render_frame()
@@ -467,6 +487,14 @@ sg::Node &Renderer::add_player_script(const char *node_name)
 	p_scene_->add_component_to_node(std::move(p_script), *p_node);
 
 	return *p_node;
+}
+
+sg::Script &Renderer::add_light_script(glm::vec3& lightposition, std::string light_name)
+{
+	std::unique_ptr<sg::Light> p_script = std::make_unique<sg::Light>(lightposition, light_name);
+	p_scene_->add_component(std::move(p_script));
+		
+	return *p_script;
 }
 
 void Renderer::create_rendering_resources()
