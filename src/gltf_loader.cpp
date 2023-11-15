@@ -810,7 +810,7 @@ std::unique_ptr<sg::Node> GLTFLoader::parse_node(const tinygltf::Node &gltf_node
 	}
 
 	// Test code to make the newly added players dissapear like magic
-	if (gltf_node.name == "player_3" || gltf_node.name == "player_4" || gltf_node.name == "player_5")
+	if (gltf_node.name == "player_3" || gltf_node.name == "player_4" || gltf_node.name == "player_5" || gltf_node.name == "projectile")        // add projectile here
 	{
 		glm::vec3 scale = {0.0f, 0.0f, 0.0f};
 		transform.set_scale(scale);

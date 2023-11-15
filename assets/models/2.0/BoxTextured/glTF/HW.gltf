@@ -18,7 +18,8 @@
                 2,
 		3,
 		4,
-		5
+		5,
+		6
             ],
             "matrix": [
                 1.0,
@@ -77,6 +78,15 @@
                 0,
                 0,
                 -2
+            ]
+        },
+	{
+            "name": "projectile",
+            "mesh": 5,
+            "translation": [
+                0,
+                0,
+                -5
             ]
         }
     ],
@@ -152,6 +162,21 @@
                     "indices": 0,
                     "mode": 4,
                     "material": 4
+                }
+            ],
+            "name": "Mesh"
+        },
+	{
+            "primitives": [
+                {
+                    "attributes": {
+                        "NORMAL": 1,
+                        "POSITION": 2,
+                        "TEXCOORD_0": 3
+                    },
+                    "indices": 0,
+                    "mode": 4,
+                    "material": 5
                 }
             ],
             "name": "Mesh"
@@ -266,6 +291,15 @@
                 "metallicFactor": 0.0
             },
             "name": "Texture"
+        },
+	{
+            "pbrMetallicRoughness": {
+                "baseColorTexture": {
+                    "index": 5
+                },
+                "metallicFactor": 0.0
+            },
+            "name": "Texture"
         }
     ],
     "textures": [
@@ -288,6 +322,10 @@
 	{
             "sampler": 0,
             "source": 4
+        },
+	{
+            "sampler": 0,
+            "source": 5
         }
     ],
     "images": [
@@ -305,6 +343,9 @@
         },
 	{
             "uri": "Player_5.png"
+        },
+	{
+            "uri": "Purple.png"
         }
     ],
     "samplers": [

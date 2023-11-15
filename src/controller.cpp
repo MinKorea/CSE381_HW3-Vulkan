@@ -175,11 +175,62 @@ bool Controller::are_players_colliding()
 {
 	glm::mat4 p1_M              = player_1.get_transform().get_world_M();
 	glm::mat4 p2_M              = player_2.get_transform().get_world_M();
+	glm::mat4 p3_M              = player_3.get_transform().get_world_M();
+	glm::mat4 p4_M              = player_4.get_transform().get_world_M();
+	glm::mat4 p5_M              = player_5.get_transform().get_world_M();
 	sg::AABB  p1_transformed_bd = player_1.get_component<sg::Mesh>().get_bounds().transform(p1_M);
 	sg::AABB  p2_transformed_bd = player_2.get_component<sg::Mesh>().get_bounds().transform(p2_M);
+	sg::AABB  p3_transformed_bd = player_3.get_component<sg::Mesh>().get_bounds().transform(p3_M);
+	sg::AABB  p4_transformed_bd = player_4.get_component<sg::Mesh>().get_bounds().transform(p4_M);
+	sg::AABB  p5_transformed_bd = player_5.get_component<sg::Mesh>().get_bounds().transform(p5_M);
+
+	if (p1_transformed_bd.collides_with(p2_transformed_bd))
+	{
+		return p1_transformed_bd.collides_with(p2_transformed_bd);
+	}
+	else if (p1_transformed_bd.collides_with(p3_transformed_bd))
+	{
+		return p1_transformed_bd.collides_with(p3_transformed_bd);
+	}
+	else if (p1_transformed_bd.collides_with(p4_transformed_bd))
+	{
+		return p1_transformed_bd.collides_with(p4_transformed_bd);
+	}
+	else if (p1_transformed_bd.collides_with(p5_transformed_bd))
+	{
+		return p1_transformed_bd.collides_with(p5_transformed_bd);
+	}
+	else if (p2_transformed_bd.collides_with(p3_transformed_bd))
+	{
+		return p2_transformed_bd.collides_with(p3_transformed_bd);
+	}
+	else if (p2_transformed_bd.collides_with(p4_transformed_bd))
+	{
+		return p2_transformed_bd.collides_with(p4_transformed_bd);
+	}
+	else if (p2_transformed_bd.collides_with(p5_transformed_bd))
+	{
+		return p2_transformed_bd.collides_with(p5_transformed_bd);
+	}
+	else if (p3_transformed_bd.collides_with(p4_transformed_bd))
+	{
+		return p3_transformed_bd.collides_with(p4_transformed_bd);
+	}
+	else if (p3_transformed_bd.collides_with(p5_transformed_bd))
+	{
+		return p3_transformed_bd.collides_with(p5_transformed_bd);
+	}
+	else if (p4_transformed_bd.collides_with(p5_transformed_bd))
+	{
+		return p4_transformed_bd.collides_with(p5_transformed_bd);
+	}
+	else
+	{
+		return p1_transformed_bd.collides_with(p2_transformed_bd);
+	}
 
 	// NOTE THIS AABB FUNCTION DOES THE ACTUAL COLLISION TEST
-	return p1_transformed_bd.collides_with(p2_transformed_bd);
+	
 }
 
 }        // namespace W3D

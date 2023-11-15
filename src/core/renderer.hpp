@@ -58,6 +58,7 @@ class Renderer
   private:
 
 	bool qKeyPressed;
+	bool rKeyPressed;
 
 	// LIGHTING PROPERTIES
 	static const uint32_t NUM_INFLIGHT_FRAMES;

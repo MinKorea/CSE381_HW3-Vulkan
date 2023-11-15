@@ -41,7 +41,8 @@
 namespace W3D
 {
  bool qKeyPressed = false;
-// SCENE LIGHTS
+ bool rKeyPressed;
+    // SCENE LIGHTS
 // THESE ARE THE LIGHTS WE WILL PUT INTO OUR SCENE, NOTE EACH
 // HAS A UNIQUE LOCATION IN THE SCENE. NOTE WE ARE USING glm
 // VECTORS TO REPRESENT POSITION
@@ -106,6 +107,7 @@ void Renderer::main_loop()
 
 		// RETRIEVE USER INPUT
 		p_window_->poll_events();
+
 	}
 
 	// RELEASE GPU
@@ -116,6 +118,17 @@ void Renderer::update()
 {
 	// ADVANCE THE TIMER
 	double delta_time = timer_.tick();
+
+
+	/*
+	* This is where you can update the projectile tranlsation/rotation to make it move and spin in a direction
+	if (rKeyPressed == true)
+	{
+		//std::cout << "FIRE!"; 
+	}
+	*/
+
+	
 
 	// THESE ARE ALL THE SCENE SCRIPTS, ONE FOR EACH UPDATABLE ITEM
 	std::vector<sg::Script *> p_scripts = p_scene_->get_components<sg::Script>();
@@ -136,6 +149,11 @@ void Renderer::update()
 
 void Renderer::process_event(const Event &event)
 {
+
+	//const auto &key_input_event_1 = static_cast<const KeyInputEvent &>(event);
+
+	//std::cout << "Event"; 
+
 	if (event.type == EventType::eResize)
 	{
 		is_window_resized_ = true;
@@ -194,6 +212,30 @@ void Renderer::process_event(const Event &event)
 					std::cout << "Player 5 spawned!" << std::endl;
 				}
 			}
+
+			
+			//std::cout << "Event"; 
+
+		if (key_input_event.code == KeyCode::eF)
+			{
+				/* This Doesnt Work for Some Reason, Cameras translation is not the translation of where the camera view is 
+				 std::cout << "Pressed F "; 
+				 rKeyPressed = true;
+
+				 sg::Node *p_node_projectile = p_scene_->find_node("projectile");
+				 auto     &transform_projectile = p_node_projectile->get_transform();
+
+				 auto & transform_camera = p_camera_node_->get_transform();
+				 glm::vec3 translation_camera = transform_camera.get_translation();
+
+				 std::cout << "camera translation: " << translation_camera.x << " " << translation_camera.y << " " << translation_camera.z << std::endl;
+				 transform_projectile.set_tranlsation(translation_camera);
+				 transform_projectile.set_scale(glm::vec3(0.5f, 0.5f, 0.5f));
+				 */
+
+			}
+
+		
 		}
 		p_controller_->process_event(event);
 	}
