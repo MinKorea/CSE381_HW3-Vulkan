@@ -36,9 +36,11 @@
 #include "scene_graph/scripts/free_camera.hpp"
 #include "scene_graph/scripts/player.hpp"
 #include "scene_graph/scripts/light.hpp"
+//#include "scene_graph/components/transform.hpp"
 
 namespace W3D
 {
+ bool qKeyPressed = false;
 // SCENE LIGHTS
 // THESE ARE THE LIGHTS WE WILL PUT INTO OUR SCENE, NOTE EACH
 // HAS A UNIQUE LOCATION IN THE SCENE. NOTE WE ARE USING glm
@@ -151,6 +153,47 @@ void Renderer::process_event(const Event &event)
 				LIGHT_POSITIONS[2] = glm::vec3(0.0f, -6.0f, -6.0f);
 				LIGHT_POSITIONS[3] = glm::vec3(-6.0f, -6.0f, -6.0f);
 			}
+
+			if (key_input_event.code == KeyCode::eQ)
+			{
+				//std::cout << "Pressed Q "; 
+
+				sg::Node *p_node_player3 = p_scene_->find_node("player_3");
+				sg::Node *p_node_player4    = p_scene_->find_node("player_4");
+				sg::Node *p_node_player5    = p_scene_->find_node("player_5");
+				auto     &transform_player3 = p_node_player3->get_component<sg::Transform>();
+				auto     &transform_player4 = p_node_player4->get_component<sg::Transform>();
+				auto     &transform_player5 = p_node_player5->get_component<sg::Transform>();
+
+				glm::vec3 zero = {0.0f, 0.0f, 0.0f};
+				//std::cout << qKeyPressed << std::endl;
+
+				if (transform_player3.get_scale() == zero && (qKeyPressed == 204 || qKeyPressed == false))
+				{
+					transform_player3.set_scale(glm::vec3(1.0f, 1.0f, 1.0f));
+					std::cout << "Player 3 spawned!" << std::endl;
+					qKeyPressed = true;
+				}
+				else if (transform_player4.get_scale() == zero && qKeyPressed == true)
+				{				
+					qKeyPressed = false;
+				}
+				else if (transform_player4.get_scale() == zero && qKeyPressed == false)
+				{
+					transform_player4.set_scale(glm::vec3(1.0f, 1.0f, 1.0f));
+					std::cout << "Player 4 spawned!" << std::endl;
+					qKeyPressed = true;
+				}
+				else if (transform_player5.get_scale() == zero && qKeyPressed == true)
+				{
+					qKeyPressed = false;
+				}
+				else if (transform_player5.get_scale() == zero && qKeyPressed == false)
+				{
+					transform_player5.set_scale(glm::vec3(1.0f, 1.0f, 1.0f));
+					std::cout << "Player 5 spawned!" << std::endl;
+				}
+			}
 		}
 		p_controller_->process_event(event);
 	}
@@ -177,6 +220,9 @@ void Renderer::create_controller()
 		(*p_camera_node_,
 		add_player_script("player_1"),
 		add_player_script("player_2"),
+		add_player_script("player_3"),
+		add_player_script("player_4"),
+		add_player_script("player_5"),
 	    *p_scene_->find_component<sg::Light>("light_1"),
 	    *p_scene_->find_component<sg::Light>("light_2"),
 	    *p_scene_->find_component<sg::Light>("light_3"),
@@ -426,6 +472,7 @@ void Renderer::draw_scene(CommandBuffer &cmd_buf)
 	    {});
 
 	std::queue<sg::Node *> p_nodes;
+
 	p_nodes.push(&p_scene_->get_root_node());
 	while (!p_nodes.empty())
 	{

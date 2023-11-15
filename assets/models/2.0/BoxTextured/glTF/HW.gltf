@@ -15,7 +15,10 @@
         {
             "children": [
                 1,
-                2
+                2,
+		3,
+		4,
+		5
             ],
             "matrix": [
                 1.0,
@@ -48,6 +51,33 @@
                 0,
                 0
             ]
+        },
+	{
+            "name": "player_3",
+            "mesh": 2,
+            "translation": [
+                -3,
+                0,
+                0
+            ]
+        },
+	{
+            "name": "player_4",
+            "mesh": 3,
+            "translation": [
+                0,
+                0,
+                2
+            ]
+        },
+	{
+            "name": "player_5",
+            "mesh": 4,
+            "translation": [
+                0,
+                0,
+                -2
+            ]
         }
     ],
     "meshes": [
@@ -77,6 +107,51 @@
                     "indices": 0,
                     "mode": 4,
                     "material": 1
+                }
+            ],
+            "name": "Mesh"
+        },
+	{
+            "primitives": [
+                {
+                    "attributes": {
+                        "NORMAL": 1,
+                        "POSITION": 2,
+                        "TEXCOORD_0": 3
+                    },
+                    "indices": 0,
+                    "mode": 4,
+                    "material": 2
+                }
+            ],
+            "name": "Mesh"
+        },
+	{
+            "primitives": [
+                {
+                    "attributes": {
+                        "NORMAL": 1,
+                        "POSITION": 2,
+                        "TEXCOORD_0": 3
+                    },
+                    "indices": 0,
+                    "mode": 4,
+                    "material": 3
+                }
+            ],
+            "name": "Mesh"
+        },
+	{
+            "primitives": [
+                {
+                    "attributes": {
+                        "NORMAL": 1,
+                        "POSITION": 2,
+                        "TEXCOORD_0": 3
+                    },
+                    "indices": 0,
+                    "mode": 4,
+                    "material": 4
                 }
             ],
             "name": "Mesh"
@@ -164,6 +239,33 @@
                 "metallicFactor": 0.0
             },
             "name": "Texture"
+        },
+	{
+            "pbrMetallicRoughness": {
+                "baseColorTexture": {
+                    "index": 2
+                },
+                "metallicFactor": 0.0
+            },
+            "name": "Texture"
+        },
+	{
+            "pbrMetallicRoughness": {
+                "baseColorTexture": {
+                    "index": 3
+                },
+                "metallicFactor": 0.0
+            },
+            "name": "Texture"
+        },
+	{
+            "pbrMetallicRoughness": {
+                "baseColorTexture": {
+                    "index": 4
+                },
+                "metallicFactor": 0.0
+            },
+            "name": "Texture"
         }
     ],
     "textures": [
@@ -174,6 +276,18 @@
         {
             "sampler": 0,
             "source": 1
+        },
+	{
+            "sampler": 0,
+            "source": 2
+        },
+	{
+            "sampler": 0,
+            "source": 3
+        },
+	{
+            "sampler": 0,
+            "source": 4
         }
     ],
     "images": [
@@ -182,6 +296,15 @@
         },
         {
             "uri": "Player2.png"
+        },
+	{
+            "uri": "Player_3.png"
+        },
+	{
+            "uri": "Player_4.png"
+        },
+	{
+            "uri": "Player_5.png"
         }
     ],
     "samplers": [

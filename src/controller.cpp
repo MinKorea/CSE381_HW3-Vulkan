@@ -15,11 +15,14 @@ namespace W3D
 {
 // Class that is responsible for dispatching events and answering collision queries
 
-Controller::Controller(sg::Node &camera_node, sg::Node &player_1_node, sg::Node &player_2_node,
+Controller::Controller(sg::Node &camera_node, sg::Node &player_1_node, sg::Node &player_2_node, sg::Node &player_3_node, sg::Node &player_4_node, sg::Node &player_5_node,
                        sg::Script &light_1_script, sg::Script &light_2_script, sg::Script &light_3_script, sg::Script &light_4_script) :
     camera_(camera_node),
     player_1(player_1_node),
     player_2(player_2_node),
+    player_3(player_3_node),
+    player_4(player_4_node),
+    player_5(player_5_node),
     light_1(light_1_script),
     light_2(light_2_script),
     light_3(light_3_script),
@@ -38,8 +41,18 @@ void Controller::process_event(const Event &event)
 		{
 			auto &p1 = player_1.get_transform();
 			auto &p2 = player_2.get_transform();
+			auto &p3 = player_3.get_transform();
+			auto &p4 = player_4.get_transform();
+			auto &p5 = player_5.get_transform();
 			p1.set_tranlsation(glm::vec3(0.0f, 0.0f, 0.0f));
+			//p1.set_scale(glm::vec3(0.0f, 0.0f, 0.0f)); // Test edited in
 			p2.set_tranlsation(glm::vec3(3.0f, 0.0f, 0.0f));
+			p3.set_scale(glm::vec3(0.0f, 0.0f, 0.0f));
+			p3.set_tranlsation(glm::vec3(-3.0f, 0.0f, 0.0f));
+			p4.set_scale(glm::vec3(0.0f, 0.0f, 0.0f));
+			p4.set_tranlsation(glm::vec3(0.0f, 0.0f, 2.0f));
+			p5.set_scale(glm::vec3(0.0f, 0.0f, 0.0f));
+			p5.set_tranlsation(glm::vec3(0.0f, 0.0f, -2.0f));
 			auto &cam = camera_.get_transform();
 			cam.set_tranlsation(glm::vec3(0.0f, 0.0f, 5.0f));
 			cam.set_rotation(glm::vec3(0.0f, 0.0f, 0.0f));
@@ -89,6 +102,18 @@ void Controller::switch_mode(KeyCode code)
 	{
 		mode_ = ControllerMode::eLight4;
 	}
+	else if (code == KeyCode::e8)
+	{
+		mode_ = ControllerMode::ePlayer3;
+	}
+	else if (code == KeyCode::e9)
+	{
+		mode_ = ControllerMode::ePlayer4;
+	}
+	else if (code == KeyCode::e0)
+	{
+		mode_ = ControllerMode::ePlayer5;
+	}
 }
 
 void Controller::deliver_event(const Event &event)
@@ -123,6 +148,18 @@ void Controller::deliver_event(const Event &event)
 	else if(mode_ == ControllerMode::eLight4)
 	{
 		p_script = &light_4;
+	}
+	else if (mode_ == ControllerMode::ePlayer3)
+	{
+		p_script = &player_3.get_component<sg::Script>();
+	}
+	else if (mode_ == ControllerMode::ePlayer4)
+	{
+		p_script = &player_4.get_component<sg::Script>();
+	}
+	else if (mode_ == ControllerMode::ePlayer5)
+	{
+		p_script = &player_5.get_component<sg::Script>();
 	}
 	else
 	{

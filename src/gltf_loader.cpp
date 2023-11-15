@@ -27,6 +27,7 @@
 #include "scene_graph/components/transform.hpp"
 #include "scene_graph/node.hpp"
 #include "scene_graph/scene.hpp"
+#include <iostream>
 
 namespace W3D
 {
@@ -751,12 +752,15 @@ std::vector<std::unique_ptr<sg::Node>> GLTFLoader::parse_nodes()
 	for (size_t i = 0; i < gltf_model_.nodes.size(); i++)
 	{
 		const tinygltf::Node     &gltf_node = gltf_model_.nodes[i];
+	//	std::cout << gltf_node.name << std::endl;
 		std::unique_ptr<sg::Node> p_node    = parse_node(gltf_node, i);
 
 		if (gltf_node.mesh >= 0)
 		{
 			assert(gltf_node.mesh < p_meshs.size());
 			sg::Mesh *p_mesh = p_meshs[gltf_node.mesh];
+			//p_mesh->get_name();
+			// std::cout << p_mesh->get_name() << std::endl; each mesh called mesh hopefully can resuse them
 			p_node->set_component(*p_mesh);
 			p_mesh->add_node(*p_node);
 		}
@@ -778,6 +782,7 @@ std::unique_ptr<sg::Node> GLTFLoader::parse_node(const tinygltf::Node &gltf_node
                                                  size_t                index) const
 {
 	auto node = std::make_unique<sg::Node>(index, gltf_node.name);
+	//std::cout << index; 0, 1, 2 are indexes made
 
 	auto &transform = node->get_component<sg::Transform>();
 
@@ -785,6 +790,7 @@ std::unique_ptr<sg::Node> GLTFLoader::parse_node(const tinygltf::Node &gltf_node
 	{
 		glm::vec3 translation;
 		std::transform(gltf_node.translation.begin(), gltf_node.translation.end(), glm::value_ptr(translation), TypeCast<double, float>{});
+		//std::cout << "Vec3 translation: " << translation.x << " " << translation.y << " " << translation.z << std::endl;
 		transform.set_tranlsation(translation);
 	}
 
@@ -799,13 +805,38 @@ std::unique_ptr<sg::Node> GLTFLoader::parse_node(const tinygltf::Node &gltf_node
 	{
 		glm::vec3 scale;
 		std::transform(gltf_node.scale.begin(), gltf_node.scale.end(), glm::value_ptr(scale), TypeCast<double, float>{});
+	//	std::cout << "Vec3 scale: " << scale.x << " " << scale.y << " " << scale.z << std::endl;
 		transform.set_scale(scale);
 	}
+
+	// Test code to make the newly added players dissapear like magic
+	if (gltf_node.name == "player_3" || gltf_node.name == "player_4" || gltf_node.name == "player_5")
+	{
+		glm::vec3 scale = {0.0f, 0.0f, 0.0f};
+		transform.set_scale(scale);
+
+	}
+
+	//end 
 
 	if (!gltf_node.matrix.empty())
 	{
 		glm::mat4 matrix;
 		std::transform(gltf_node.matrix.begin(), gltf_node.matrix.end(), glm::value_ptr(matrix), TypeCast<double, float>{});
+		// Print the matrix
+		/*
+		std::cout << gltf_node.name << std::endl;
+		std::cout << "Matrix:" << std::endl;
+		for (int i = 0; i < 4; ++i)
+		{
+			for (int j = 0; j < 4; ++j)
+			{
+				std::cout << matrix[i][j] << " ";
+			}
+			std::cout << std::endl;
+		}
+		*/
+		// end
 		transform.set_world_M(matrix);
 	}
 

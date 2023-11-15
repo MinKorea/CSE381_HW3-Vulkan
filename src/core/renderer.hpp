@@ -56,6 +56,9 @@ struct Event;
 class Renderer
 {
   private:
+
+	bool qKeyPressed;
+
 	// LIGHTING PROPERTIES
 	static const uint32_t NUM_INFLIGHT_FRAMES;
 	static const uint32_t IRRADIANCE_DIMENSION;
