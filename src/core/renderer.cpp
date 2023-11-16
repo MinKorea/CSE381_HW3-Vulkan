@@ -213,29 +213,24 @@ void Renderer::process_event(const Event &event)
 				}
 			}
 
-			
 			//std::cout << "Event"; 
 
-		if (key_input_event.code == KeyCode::eF)
+			if (key_input_event.code == KeyCode::eF)
 			{
-				/* This Doesnt Work for Some Reason, Cameras translation is not the translation of where the camera view is 
-				 std::cout << "Pressed F "; 
-				 rKeyPressed = true;
+					std::cout << "Pressed F " << std::endl; 
+					rKeyPressed = true;
 
-				 sg::Node *p_node_projectile = p_scene_->find_node("projectile");
-				 auto     &transform_projectile = p_node_projectile->get_transform();
+					sg::Node *p_node_projectile = p_scene_->find_node("projectile");
+					auto     &transform_projectile = p_node_projectile->get_transform();
 
-				 auto & transform_camera = p_camera_node_->get_transform();
-				 glm::vec3 translation_camera = transform_camera.get_translation();
+					auto &transform_camera = p_camera_node_->get_transform();
+					glm::vec3 translation_camera = transform_camera.get_translation();
+				    translation_camera -= glm::vec3(0.0f, (translation_camera.z - 1.0f), translation_camera.z);
 
-				 std::cout << "camera translation: " << translation_camera.x << " " << translation_camera.y << " " << translation_camera.z << std::endl;
-				 transform_projectile.set_tranlsation(translation_camera);
-				 transform_projectile.set_scale(glm::vec3(0.5f, 0.5f, 0.5f));
-				 */
-
+					std::cout << "camera translation: " << translation_camera.x << " " << translation_camera.y << " " << translation_camera.z << std::endl;
+				    p_node_projectile->get_component<sg::Transform>().set_tranlsation(translation_camera);
+				    p_node_projectile->get_component<sg::Transform>().set_scale(glm::vec3(0.3f, 0.3f, 0.3f));		
 			}
-
-		
 		}
 		p_controller_->process_event(event);
 	}
