@@ -120,15 +120,13 @@ void Renderer::update()
 	double delta_time = timer_.tick();
 
 
-	/*
-	* This is where you can update the projectile tranlsation/rotation to make it move and spin in a direction
+	
+	// This is where you can update the projectile tranlsation/rotation to make it move and spin in a direction
 	if (rKeyPressed == true)
 	{
-		//std::cout << "FIRE!"; 
+		std::cout << "FIRE!" << std::endl;
+		rKeyPressed = false;
 	}
-	*/
-
-	
 
 	// THESE ARE ALL THE SCENE SCRIPTS, ONE FOR EACH UPDATABLE ITEM
 	std::vector<sg::Script *> p_scripts = p_scene_->get_components<sg::Script>();
