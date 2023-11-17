@@ -125,31 +125,33 @@ void Renderer::update()
 	const float ROTATION_SPEED        = 5.0f;
 
 	glm::vec3 delta_translation(0.0f, 0.0f, 0.0f);
-
-	/*
-	float     rotationSpeed = glm::radians(30.0f);        // Rotation speed in radians per second
-	glm::vec3 rotationAxis(0.0f, 1.0f, 0.0f);
-	glm::quat rotationQuaternion = glm::angleAxis(0.0f, rotationAxis);
-	float     deltaAngle         = rotationSpeed * delta_time;
-	*/
+	glm::vec3 delta_rotation(0.0f, 0.0f, 0.0f);
 	
+
+
+	//float     rotationSpeed = glm::radians(45.0f);        // Rotation speed in radians per second
+	//glm::vec3 rotationAxis(0.0f, 1.0f, 0.0f);
+	//glm::quat rotationQuaternion = glm::angleAxis(0.0f, rotationAxis);
+	//float     deltaAngle         = rotationSpeed * delta_time;
 	
 	// This is where you can update the projectile tranlsation/rotation to make it move and spin in a direction
 	if (rKeyPressed == true)
 	{
 		timeElapsed = timeElapsed + delta_time;
+		
+		delta_rotation.y -= 8.0f;
 
 		delta_translation.y += TRANSLATION_MOVE_STEP;
 		delta_translation *= 1.0f * delta_time;
-		//rotationQuaternion = glm::rotate(rotationQuaternion, deltaAngle, rotationAxis);
-
-		glm::quat deltaQuat = glm::quat(glm::vec3(0.0f, 0.001f, 0.0f));
+		delta_rotation *= delta_time;
 	
 		sg::Node *p_node_projectile = p_scene_->find_node("projectile");
 		auto     &transform_projectile = p_node_projectile->get_transform();
 		transform_projectile.set_tranlsation(transform_projectile.get_translation() + delta_translation);
-		//transform_projectile.set_rotation(transform_projectile.get_rotation() - deltaQuat);
-	
+		glm::quat qy = glm::angleAxis(delta_rotation.y, glm::vec3(0.0f, 1.0f, 0.0f));
+		glm::quat orientation = glm::normalize(qy * transform_projectile.get_rotation());
+		transform_projectile.set_rotation(orientation);
+		
 		std::string player_name = p_controller_->is_projectile_colliding();
 
 		
@@ -176,13 +178,6 @@ void Renderer::update()
 			transform_projectile.set_tranlsation(glm::vec3(50.0f, 50.0f, 50.0f));
 			rKeyPressed = false;
 		}
-	
-		//std::cout << timeElapsed << std::endl;
-
-
-
-		//std::cout << "FIRE!" << std::endl;
-		//rKeyPressed = false;
 	}
 
 	// THESE ARE ALL THE SCENE SCRIPTS, ONE FOR EACH UPDATABLE ITEM
