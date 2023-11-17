@@ -126,11 +126,13 @@ void Renderer::update()
 
 	glm::vec3 delta_translation(0.0f, 0.0f, 0.0f);
 
-
-	//float     rotationSpeed = glm::radians(45.0f);        // Rotation speed in radians per second
-	//glm::vec3 rotationAxis(0.0f, 1.0f, 0.0f);
-	//glm::quat rotationQuaternion = glm::angleAxis(0.0f, rotationAxis);
-	//float     deltaAngle         = rotationSpeed * delta_time;
+	/*
+	float     rotationSpeed = glm::radians(30.0f);        // Rotation speed in radians per second
+	glm::vec3 rotationAxis(0.0f, 1.0f, 0.0f);
+	glm::quat rotationQuaternion = glm::angleAxis(0.0f, rotationAxis);
+	float     deltaAngle         = rotationSpeed * delta_time;
+	*/
+	
 	
 	// This is where you can update the projectile tranlsation/rotation to make it move and spin in a direction
 	if (rKeyPressed == true)
@@ -140,27 +142,38 @@ void Renderer::update()
 		delta_translation.y += TRANSLATION_MOVE_STEP;
 		delta_translation *= 1.0f * delta_time;
 		//rotationQuaternion = glm::rotate(rotationQuaternion, deltaAngle, rotationAxis);
+
+		glm::quat deltaQuat = glm::quat(glm::vec3(0.0f, 0.001f, 0.0f));
 	
 		sg::Node *p_node_projectile = p_scene_->find_node("projectile");
 		auto     &transform_projectile = p_node_projectile->get_transform();
 		transform_projectile.set_tranlsation(transform_projectile.get_translation() + delta_translation);
-		//transform_projectile.set_rotation(rotationQuaternion);
+		//transform_projectile.set_rotation(transform_projectile.get_rotation() - deltaQuat);
+	
 		std::string player_name = p_controller_->is_projectile_colliding();
+
 		
 		if (player_name != "")
 		{
 			//std::cout << player_name << std::endl; 
 			sg::Node *player_node = p_scene_->find_node(player_name);
 			auto     &transform_player = player_node->get_transform();
+			auto      translation      = transform_player.get_translation();
+			glm::vec3 new_translation  = glm::vec3(translation.x * 100, translation.y * 100, translation.z * 100);
+			transform_player.set_tranlsation(new_translation);        // moves far away
 			transform_player.set_scale(glm::vec3(0.0f, 0.0f, 0.0f));
 			transform_projectile.set_scale(glm::vec3(0.0f, 0.0f, 0.0f));
+			transform_projectile.set_tranlsation(glm::vec3(50.0f, 50.0f, 50.0f));
+			
 			rKeyPressed = false;
+			//movement_change = movement_change + 50.0f;
 
 		}
 
 		if (timeElapsed >= 3.0f)
 		{
 			transform_projectile.set_scale(glm::vec3(0.0f, 0.0f, 0.0f));
+			transform_projectile.set_tranlsation(glm::vec3(50.0f, 50.0f, 50.0f));
 			rKeyPressed = false;
 		}
 	
@@ -263,6 +276,7 @@ void Renderer::process_event(const Event &event)
 					std::cout << "Pressed F " << std::endl; 
 					rKeyPressed = true;
 				    timeElapsed = 0;
+					//movement_change = 0.0f;
 
 					sg::Node *p_node_projectile = p_scene_->find_node("projectile");
 					auto     &transform_projectile = p_node_projectile->get_transform();
