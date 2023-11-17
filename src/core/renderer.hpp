@@ -9,6 +9,7 @@
 #include "pbr_baker.hpp"
 #include "sync_objects.hpp"
 
+
 /*
 * renderer.hpp - This is the header file for the Renderer class type and structs it uses
 * for this demo. Note that this Wolfie3D demo is just a renderer so this class is rather
@@ -59,6 +60,7 @@ class Renderer
 
 	bool qKeyPressed;
 	bool rKeyPressed;
+	float timeElapsed;
 
 	// LIGHTING PROPERTIES
 	static const uint32_t NUM_INFLIGHT_FRAMES;

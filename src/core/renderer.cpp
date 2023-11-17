@@ -42,6 +42,7 @@ namespace W3D
 {
  bool qKeyPressed = false;
  bool rKeyPressed;
+ float timeElapsed;
     // SCENE LIGHTS
 // THESE ARE THE LIGHTS WE WILL PUT INTO OUR SCENE, NOTE EACH
 // HAS A UNIQUE LOCATION IN THE SCENE. NOTE WE ARE USING glm
@@ -118,14 +119,57 @@ void Renderer::update()
 {
 	// ADVANCE THE TIMER
 	double delta_time = timer_.tick();
+	//std::cout << delta_time << std::endl; 
+
+	const float TRANSLATION_MOVE_STEP = 5.0f;
+	const float ROTATION_SPEED        = 5.0f;
+
+	glm::vec3 delta_translation(0.0f, 0.0f, 0.0f);
 
 
+	//float     rotationSpeed = glm::radians(45.0f);        // Rotation speed in radians per second
+	//glm::vec3 rotationAxis(0.0f, 1.0f, 0.0f);
+	//glm::quat rotationQuaternion = glm::angleAxis(0.0f, rotationAxis);
+	//float     deltaAngle         = rotationSpeed * delta_time;
 	
 	// This is where you can update the projectile tranlsation/rotation to make it move and spin in a direction
 	if (rKeyPressed == true)
 	{
-		std::cout << "FIRE!" << std::endl;
-		rKeyPressed = false;
+		timeElapsed = timeElapsed + delta_time;
+
+		delta_translation.y += TRANSLATION_MOVE_STEP;
+		delta_translation *= 1.0f * delta_time;
+		//rotationQuaternion = glm::rotate(rotationQuaternion, deltaAngle, rotationAxis);
+	
+		sg::Node *p_node_projectile = p_scene_->find_node("projectile");
+		auto     &transform_projectile = p_node_projectile->get_transform();
+		transform_projectile.set_tranlsation(transform_projectile.get_translation() + delta_translation);
+		//transform_projectile.set_rotation(rotationQuaternion);
+		std::string player_name = p_controller_->is_projectile_colliding();
+		
+		if (player_name != "")
+		{
+			//std::cout << player_name << std::endl; 
+			sg::Node *player_node = p_scene_->find_node(player_name);
+			auto     &transform_player = player_node->get_transform();
+			transform_player.set_scale(glm::vec3(0.0f, 0.0f, 0.0f));
+			transform_projectile.set_scale(glm::vec3(0.0f, 0.0f, 0.0f));
+			rKeyPressed = false;
+
+		}
+
+		if (timeElapsed >= 3.0f)
+		{
+			transform_projectile.set_scale(glm::vec3(0.0f, 0.0f, 0.0f));
+			rKeyPressed = false;
+		}
+	
+		//std::cout << timeElapsed << std::endl;
+
+
+
+		//std::cout << "FIRE!" << std::endl;
+		//rKeyPressed = false;
 	}
 
 	// THESE ARE ALL THE SCENE SCRIPTS, ONE FOR EACH UPDATABLE ITEM
@@ -213,10 +257,12 @@ void Renderer::process_event(const Event &event)
 
 			//std::cout << "Event"; 
 
-			if (key_input_event.code == KeyCode::eF)
+			if (key_input_event.code == KeyCode::eF && rKeyPressed != true)
 			{
+				//
 					std::cout << "Pressed F " << std::endl; 
 					rKeyPressed = true;
+				    timeElapsed = 0;
 
 					sg::Node *p_node_projectile = p_scene_->find_node("projectile");
 					auto     &transform_projectile = p_node_projectile->get_transform();
@@ -258,6 +304,7 @@ void Renderer::create_controller()
 		add_player_script("player_3"),
 		add_player_script("player_4"),
 		add_player_script("player_5"),
+	    add_player_script("projectile"),
 	    *p_scene_->find_component<sg::Light>("light_1"),
 	    *p_scene_->find_component<sg::Light>("light_2"),
 	    *p_scene_->find_component<sg::Light>("light_3"),

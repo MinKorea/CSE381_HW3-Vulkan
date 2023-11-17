@@ -1,4 +1,5 @@
 #pragma once
+#include <string>
 
 namespace W3D
 {
@@ -21,6 +22,7 @@ enum class ControllerMode
 	ePlayer3,
 	ePlayer4,
 	ePlayer5,
+	eProjectile,
 	eLight1,
 	eLight2,
 	eLight3,
@@ -44,6 +46,7 @@ class Controller
 	sg::Node      &player_3;
 	sg::Node      &player_4;
 	sg::Node      &player_5;
+	sg::Node      &projectile;
 	sg::Script    &light_1;
 	sg::Script    &light_2;
 	sg::Script    &light_3;
@@ -57,7 +60,7 @@ class Controller
 	/*
 	* Constructor that initializes all the controllable game objects.
 	*/
-	Controller(sg::Node &camera_node, sg::Node &player_1_node, sg::Node &player_2_node, sg::Node &player_3_node, sg::Node &player_4_node, sg::Node &player_5_node,  
+	Controller(sg::Node &camera_node, sg::Node &player_1_node, sg::Node &player_2_node, sg::Node &player_3_node, sg::Node &player_4_node, sg::Node &player_5_node, sg::Node &projectile,  
 		sg::Script &light_1_script, sg::Script &light_2_script, sg::Script &light_3_script, sg::Script &light_4_script);
 
 	/*
@@ -87,6 +90,8 @@ class Controller
 	* it simple.
 	*/
 	bool are_players_colliding();
+
+	std::string is_projectile_colliding();
 
 };	// class Controller
 

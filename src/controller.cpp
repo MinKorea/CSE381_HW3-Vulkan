@@ -1,6 +1,7 @@
 // IN THIS FILE WE'LL BE DECLARING METHODS DECLARED INSIDE THIS HEADER FILE
 #include "controller.hpp"
 #include <iostream>
+#include <string>
 
 // OUR OWN TYPES
 #include "scene_graph/components/aabb.hpp"
@@ -15,7 +16,7 @@ namespace W3D
 {
 // Class that is responsible for dispatching events and answering collision queries
 
-Controller::Controller(sg::Node &camera_node, sg::Node &player_1_node, sg::Node &player_2_node, sg::Node &player_3_node, sg::Node &player_4_node, sg::Node &player_5_node,
+Controller::Controller(sg::Node &camera_node, sg::Node &player_1_node, sg::Node &player_2_node, sg::Node &player_3_node, sg::Node &player_4_node, sg::Node &player_5_node, sg::Node &projectile_node,
                        sg::Script &light_1_script, sg::Script &light_2_script, sg::Script &light_3_script, sg::Script &light_4_script) :
     camera_(camera_node),
     player_1(player_1_node),
@@ -23,6 +24,7 @@ Controller::Controller(sg::Node &camera_node, sg::Node &player_1_node, sg::Node 
     player_3(player_3_node),
     player_4(player_4_node),
     player_5(player_5_node),
+    projectile(projectile_node),
     light_1(light_1_script),
     light_2(light_2_script),
     light_3(light_3_script),
@@ -45,8 +47,10 @@ void Controller::process_event(const Event &event)
 			auto &p4 = player_4.get_transform();
 			auto &p5 = player_5.get_transform();
 			p1.set_tranlsation(glm::vec3(0.0f, 0.0f, 0.0f));
+			p1.set_scale(glm::vec3(1.0f, 1.0f, 1.0f));
 			//p1.set_scale(glm::vec3(0.0f, 0.0f, 0.0f)); // Test edited in
 			p2.set_tranlsation(glm::vec3(3.0f, 0.0f, 0.0f));
+			p2.set_scale(glm::vec3(1.0f, 1.0f, 1.0f));
 			p3.set_scale(glm::vec3(0.0f, 0.0f, 0.0f));
 			p3.set_tranlsation(glm::vec3(-3.0f, 0.0f, 0.0f));
 			p4.set_scale(glm::vec3(0.0f, 0.0f, 0.0f));
@@ -231,6 +235,47 @@ bool Controller::are_players_colliding()
 
 	// NOTE THIS AABB FUNCTION DOES THE ACTUAL COLLISION TEST
 	
+}
+
+std::string Controller::is_projectile_colliding()
+{
+	glm::mat4 p1_M              = player_1.get_transform().get_world_M();
+	glm::mat4 p2_M              = player_2.get_transform().get_world_M();
+	glm::mat4 p3_M              = player_3.get_transform().get_world_M();
+	glm::mat4 p4_M              = player_4.get_transform().get_world_M();
+	glm::mat4 p5_M              = player_5.get_transform().get_world_M();
+	glm::mat4 proj_M            = projectile.get_transform().get_world_M();
+	sg::AABB  p1_transformed_bd = player_1.get_component<sg::Mesh>().get_bounds().transform(p1_M);
+	sg::AABB  p2_transformed_bd = player_2.get_component<sg::Mesh>().get_bounds().transform(p2_M);
+	sg::AABB  p3_transformed_bd = player_3.get_component<sg::Mesh>().get_bounds().transform(p3_M);
+	sg::AABB  p4_transformed_bd = player_4.get_component<sg::Mesh>().get_bounds().transform(p4_M);
+	sg::AABB  p5_transformed_bd = player_5.get_component<sg::Mesh>().get_bounds().transform(p5_M);
+	sg::AABB  proj_transformed_bd = player_5.get_component<sg::Mesh>().get_bounds().transform(proj_M);
+
+	if (proj_transformed_bd.collides_with(p1_transformed_bd))
+	{
+		return "player_1";
+	}
+	else if (proj_transformed_bd.collides_with(p2_transformed_bd))
+	{
+		return "player_2";
+	}
+	else if (proj_transformed_bd.collides_with(p3_transformed_bd))
+	{
+		return "player_3";
+	}
+	else if (proj_transformed_bd.collides_with(p4_transformed_bd))
+	{
+		return "player_4";
+	}
+	else if (proj_transformed_bd.collides_with(p5_transformed_bd))
+	{
+		return "player_5";
+	}
+	else
+	{
+		return "";
+	}
 }
 
 }        // namespace W3D
