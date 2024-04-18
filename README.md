@@ -39,3 +39,20 @@
   - If you get any errors during the build, make sure you have the latest version of the Vulkan SDK installed
 - Once the build succeeds, right-click the Wolfie3D Project file within the solution (should be three project files, shaders, uninstall, and Wolfie3D), and click **Set As Startup Project** 
 - At the top of Visual Studio you should see a green arrow and the text **Local Windows Debugger**, click that and the HW application should run
+
+## Play
+### Controls
+- Movements: W,A,S,D
+- Spawning objects: Q
+- Camera rotation: Mouse click + Mouse movemets
+- Shoot the object(During the camera mode): F (This object destroys player cubes after collision)
+- Reset the scene: R
+
+
+### Modes
+- Number key 1,2: Moving players 
+- Number key 3: Moving the camera
+- Number key 4,5,6,7: Moving lights
+- Number key 8,9,0: Moving objects created by Q
+
+
